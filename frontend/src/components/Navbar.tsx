@@ -1,5 +1,6 @@
 import { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
+import { useAuth } from '../hooks/useAuth'
 import './Navbar.css'
 
 interface NavbarProps {
@@ -8,10 +9,17 @@ interface NavbarProps {
 }
 
 const Navbar = ({ activeView, setActiveView }: NavbarProps) => {
-  const [isOpen, setIsOpen] = useState(false)
+  const { logout, user } = useAuth()
+  const navigate = useNavigate()
+
+  const handleLogout = () => {
+    logout()
+    navigate('/login')
+  }
 
   const navLinks = [
     { id: 'dashboard', label: '🏠 Dashboard', path: '/' },
+    { id: 'mascota', label: '🐾 Mis Mascotas', path: '/mascota' },
     { id: 'farmacia', label: '💊 Farmacia', path: '/farmacia' },
     { id: 'teleconsulta', label: '📹 Teleconsulta', path: '/teleconsulta' },
     { id: 'seguros', label: '🛡️ Seguros', path: '/seguros' },
@@ -38,7 +46,12 @@ const Navbar = ({ activeView, setActiveView }: NavbarProps) => {
       </div>
 
       <div className="nav-actions">
-        <button className="btn-cta" onClick={() => alert('Acceso seguro iniciado')}>Acceso Red Privada</button>
+        <span className="user-info">
+          {user?.firstName} ({user?.role})
+        </span>
+        <button className="btn-logout" onClick={handleLogout}>
+          <i className="fas fa-sign-out-alt"></i> Cerrar Sesión
+        </button>
       </div>
     </nav>
   )
