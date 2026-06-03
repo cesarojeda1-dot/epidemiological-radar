@@ -1,0 +1,84 @@
+.farmacia {
+  width: 100%;
+}
+
+.farmacia-layout {
+  display: grid;
+  grid-template-columns: 1fr 280px;
+  gap: 2rem;
+  align-items: start;
+}
+
+.search-bar {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.search-bar input {
+  flex: 1;
+  padding: 0.9rem 1.2rem;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  font-size: 1rem;
+  outline: none;
+  transition: 0.3s;
+  background: var(--bg-white);
+}
+
+.search-bar input:focus {
+  border-color: var(--primary-teal);
+  box-shadow: 0 0 0 3px var(--light-teal);
+}
+
+.search-bar button {
+  background: var(--primary-teal);
+  color: white;
+  padding: 0 1.5rem;
+  border-radius: 10px;
+  font-weight: 700;
+  font-size: 1rem;
+}
+
+.search-bar button:hover {
+  background: var(--dark-teal);
+}
+
+.products-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 1.5rem;
+}
+
+.btn-add-cart {
+  width: 100%;
+  background: var(--accent-amber);
+  color: #78350F;
+  padding: 0.6rem;
+  border-radius: 8px;
+  font-weight: 800;
+  margin-top: auto;
+}
+
+.btn-add-cart:hover {
+  background: var(--accent-amber-light);
+}
+
+.cart-sidebar {
+  background: var(--bg-white);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 1.5rem;
+  position: sticky;
+  top: 120px;
+}
+
+@media (max-width: 900px) {
+  .farmacia-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .cart-sidebar {
+    position: static;
+  }
+}

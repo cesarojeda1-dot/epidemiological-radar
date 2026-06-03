@@ -1,0 +1,45 @@
+:root {
+  --primary-teal: #0D9488;
+  --dark-teal: #0F766E;
+  --light-teal: #E0F2F1;
+  --accent-amber: #F59E0B;
+  --accent-amber-light: #FBBF24;
+  --enterprise-blue: #1E3A8A;
+  --green-accent: #10B981;
+  --alert-red: #EF4444;
+  --bg-light: #F4F7F6;
+  --bg-white: #FFFFFF;
+  --text-dark: #111827;
+  --text-muted: #6B7280;
+  --border: #E5E7EB;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  font-family: 'Urbanist', sans-serif;
+  background: var(--bg-light);
+  color: var(--text-dark);
+  overflow-x: hidden;
+}
+
+button {
+  font-family: 'Urbanist', sans-serif;
+  cursor: pointer;
+  border: none;
+  transition: all 0.3s ease;
+}
+
+input, select, textarea {
+  font-family: 'Urbanist', sans-serif;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}

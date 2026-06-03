@@ -1,0 +1,33 @@
+.toast {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  background: #111827;
+  color: white;
+  padding: 1rem 1.5rem;
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+  z-index: 9999;
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+  animation: slideIn 0.3s ease;
+  border-left: 4px solid var(--primary-teal);
+}
+
+.toast-error {
+  border-left-color: var(--alert-red);
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}

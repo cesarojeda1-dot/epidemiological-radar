@@ -1,0 +1,108 @@
+.seguros {
+  width: 100%;
+}
+
+.insurance-hero {
+  background: linear-gradient(135deg, var(--enterprise-blue), #2563EB);
+  color: white;
+  border-radius: 20px;
+  padding: 2.5rem;
+  margin-bottom: 2rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.insurance-hero h2 {
+  font-size: 2rem;
+  font-weight: 800;
+  margin-bottom: 0.5rem;
+}
+
+.insurance-hero p {
+  opacity: 0.8;
+  font-size: 1.1rem;
+}
+
+.policy-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+}
+
+.policy-card {
+  text-align: center;
+  cursor: pointer;
+}
+
+.policy-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--primary-teal);
+  background: var(--light-teal);
+}
+
+.popular-badge {
+  background: var(--accent-amber);
+  color: #78350F;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 800;
+  display: inline-block;
+  margin-bottom: 0.5rem;
+}
+
+.plan-name {
+  font-size: 1.2rem;
+  font-weight: 800;
+  color: var(--dark-teal);
+  margin-bottom: 0.5rem;
+}
+
+.plan-price {
+  font-size: 2.5rem;
+  font-weight: 900;
+  color: var(--primary-teal);
+  margin-bottom: 1rem;
+}
+
+.plan-price span {
+  font-size: 0.8rem;
+}
+
+.policy-card ul {
+  list-style: none;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+  flex-grow: 1;
+}
+
+.policy-card ul li {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  display: flex;
+  gap: 0.5rem;
+  align-items: flex-start;
+}
+
+.policy-card ul li i {
+  color: var(--green-accent);
+  margin-top: 2px;
+  flex-shrink: 0;
+}
+
+.btn-plan {
+  width: 100%;
+  background: var(--primary-teal);
+  color: white;
+  padding: 0.75rem;
+  border-radius: 10px;
+  font-weight: 800;
+  font-size: 1rem;
+}
+
+.btn-plan:hover {
+  background: var(--dark-teal);
+}

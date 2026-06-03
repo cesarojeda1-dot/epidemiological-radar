@@ -1,0 +1,19 @@
+.app-container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.main-content {
+  flex: 1;
+  max-width: 1440px;
+  margin: 2rem auto;
+  padding: 0 5%;
+  width: 100%;
+}
+
+@media (max-width: 768px) {
+  .main-content {
+    padding: 0 3%;
+  }
+}
