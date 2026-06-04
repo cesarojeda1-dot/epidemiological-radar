@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
+    <meta name="description" content="LexiPet Sentinel - Ecosistema B2B2C de Bioseguridad Veterinaria y Radar Epidemiológico">
+    <meta name="theme-color" content="#0D9488">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>LexiPet Sentinel | Ecosistema B2B2C Global</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+ 
+    <style>
+        /* === PALETA DE COLORES LEXIPET === */
+        :root {
+            --primary-teal: #0D9488;
+            --dark-teal: #0F766E;
+            --light-teal: #E0F2F1;
+            --accent-amber: #F59E0B;
+            --accent-amber-light: #FBBF24;
+            --enterprise-blue: #1E3A8A;
+            --green-accent: #10B981;
+            --alert-red: #EF4444;
+            
+            /* Fondos y Texto */
+            --bg-light: #F4F7F6;
+            --bg-white: #FFFFFF;
+            --text-dark: #111827;
+            --text-muted: #6B7280;
+            --border: #E5E7EB;
+            --pricing-bg: #111827;
+            
+            /* Sombras Premium */
+            --shadow-sm: 0 2px 4px rgba(0,0,0,0.05);
+            --shadow-md: 0 4px 12px rgba(0,0,0,0.08);
+            --shadow-lg: 0 12px 24px rgba(13, 148, 136, 0.15);
+        }
+ 
+        /* RESET & BASE */
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-font-smoothing: antialiased; }
+        body { font-family: 'Urbanist', sans-serif; background: var(--bg-light); color: var(--text-dark); overflow-x: hidden; }
+ 
+        /* === BARRAS SUPERIORES === */
+        .demo-b2b-bar { background: var(--pricing-bg); padding: 0.5rem 5%; display: flex; gap: 1rem; align-items: center; overflow-x: auto; white-space: nowrap; border-bottom: 1px solid #374151; }
+        .demo-b2b-bar::-webkit-scrollbar { display: none; }
+        .demo-label { color: #9CA3AF; font-size: 0.75rem; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; }
+        .badge-saas { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: white; border-radius: 4px; padding: 0.3rem 0.6rem; font-size: 0.7rem; font-weight: bold; }
+        .badge-saas.active { background: var(--primary-teal); border-color: var(--primary-teal); }
+        .badge-alert { background: rgba(239, 68, 68, 0.2); border: 1px solid var(--alert-red); color: #FCA5A5; border-radius: 4px; padding: 0.3rem 0.6rem; font-size: 0.7rem; font-weight: bold; animation: pulse-bg 2s infinite;}
+ 
+        .news-ticker { background: var(--enterprise-blue); color: #fff; padding: 0.5rem 0; font-size: 0.85rem; position: relative; display: flex; align-items: center; overflow: hidden; }
+        .ticker-label { background: var(--accent-amber); color: #78350F; padding: 0.5rem 1.5rem; font-weight: 800; position: absolute; left: 0; z-index: 2; height: 100%; display: flex; align-items: center; }
+        .ticker-wrap { width: 100%; padding-left: 170px; overflow: hidden; }
+        .ticker-move { display: inline-block; white-space: nowrap; animation: ticker 40s linear infinite; }
+        @keyframes ticker { 0% { transform: translateX(100%); } 100% { transform: translateX(-100%); } }
+        .ticker-item { margin-right: 2.5rem; }
+        
+        @keyframes pulse-bg { 0% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.4); } 70% { box-shadow: 0 0 0 6px rgba(239, 68, 68, 0); } 100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); } }
+ 
+        /* === NAVBAR === */
+        nav { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); padding: 1rem 5%; display: flex; justify-content: space-between; align-items: center; box-shadow: var(--shadow-sm); position: sticky; top: 0; z-index: 1000; flex-wrap: wrap; gap: 1rem;}
+        .logo { font-size: 1.6rem; font-weight: 800; color: var(--dark-teal); display: flex; align-items: center; gap: 0.5rem; text-decoration: none; }
+        .logo i { color: var(--primary-teal); font-size: 1.8rem; }
+        .nav-links { display: flex; gap: 1.5rem; align-items: center; }
+        .nav-link { cursor: pointer; font-weight: 600; color: var(--text-muted); transition: 0.3s; text-decoration: none; padding: 0.5rem; border-radius: 8px;}
+        .nav-link:hover, .nav-link.active { color: var(--primary-teal); background: var(--light-teal); }
+        
+        .nav-actions { display: flex; gap: 1rem; align-items: center; }
+        .btn-cta { background: linear-gradient(135deg, var(--accent-amber), var(--accent-amber-light)); color: #78350F; padding: 0.6rem 1.5rem; border-radius: 25px; font-weight: 800; border: none; cursor: pointer; box-shadow: 0 4px 10px rgba(245, 158, 11, 0.3); transition: 0.3s; }
+        .btn-cta:hover { transform: translateY(-2px); box-shadow: 0 6px 15px rgba(245, 158, 11, 0.4); }
+ 
+        /* === CONTENIDO PRINCIPAL === */
+        main { max-width: 1440px; margin: 2rem auto; padding: 0 5%; min-height: 70vh; }
+        .view-section { display: none; animation: fadeIn 0.5s ease-in-out; }
+        .view-section.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
+ 
+        /* GRID DASHBOARD B2B2C */
+        .dashboard-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1.5rem; }
+        
+        /* CARDS PREMIUM */
+        .card { background: var(--bg-white); border-radius: 16px; padding: 1.5rem; border: 1px solid var(--border); box-shadow: var(--shadow-sm); transition: 0.3s; display: flex; flex-direction: column; gap: 1rem; position: relative; overflow: hidden; }
+        .card:hover { transform: translateY(-5px); box-shadow: var(--shadow-lg); border-color: var(--primary-teal); }
+        .card::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 4px; background: var(--primary-teal); opacity: 0; transition: 0.3s; }
+        .card:hover::before { opacity: 1; }
+        
+        .card-header { display: flex; align-items: center; gap: 1rem; }
+        .card-icon { width: 55px; height: 55px; border-radius: 14px; background: var(--light-teal); color: var(--primary-teal); display: flex; align-items: center; justify-content: center; font-size: 1.6rem; }
+        .card-title { font-size: 1.25rem; font-weight: 800; color: var(--dark-teal); }
+        .card-body { color: var(--text-muted); font-size: 0.95rem; line-height: 1.5; flex-grow: 1; }
+        
+        .status-badge { display: inline-block; padding: 0.3rem 0.8rem; border-radius: 20px; font-size: 0.75rem; font-weight: 700; background: rgba(16, 185, 129, 0.1); color: var(--green-accent); margin-top: auto; align-self: flex-start;}
+ 
+        /* CONTENEDOR MAPA Y GRAFICOS */
+        .media-container { width: 100%; height: 600px; border-radius: 16px; overflow: hidden; border: 1px solid var(--border); background: #eaeaea; box-shadow: var(--shadow-md); position: relative;}
+        .chart-container { position: relative; height: 350px; width: 100%; }
+ 
+        /* WALLET / ID CARD */
+        .wallet-card { background: linear-gradient(135deg, var(--dark-teal), var(--primary-teal)); color: white; border-radius: 20px; padding: 2.5rem; display: flex; align-items: center; justify-content: space-between; box-shadow: var(--shadow-lg); flex-wrap: wrap; gap: 2rem; position: relative; overflow: hidden;}
+        .wallet-card::after { content: '\f1b0'; font-family: 'Font Awesome 6 Free'; font-weight: 900; position: absolute; right: -20px; bottom: -40px; font-size: 15rem; color: rgba(255,255,255,0.05); z-index: 0; pointer-events: none;}
+        .wallet-info { z-index: 1; }
+        .wallet-info h2 { font-size: 2rem; font-weight: 800; margin-bottom: 1rem; }
+        .wallet-info p { opacity: 0.95; margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.8rem; font-size: 1.1rem;}
+        .qr-box { background: white; padding: 1rem; border-radius: 16px; box-shadow: 0 10px 25px rgba(0,0,0,0.2); z-index: 1; }
+ 
+        /* TABLA DE HISTORIAL CLINICO */
+        .data-table { width: 100%; border-collapse: collapse; margin-top: 1rem; }
+        .data-table th { text-align: left; padding: 1rem; border-bottom: 2px solid var(--border); color: var(--text-muted); font-size: 0.9rem; background: var(--bg-light);}
+        .data-table td { padding: 1rem; border-bottom: 1px solid var(--border); font-weight: 600; font-size: 0.95rem; }
+ 
+        /* MAPA: Animación para marcadores de alerta */
+        .radar-alert-icon {
+            background-color: var(--alert-red); width: 30px; height: 30px; border-radius: 50%; border: 3px solid white; box-shadow: 0 0 10px rgba(239,68,68,0.8); display: flex; align-items:center; justify-content:center; color:white; animation: pulse-alert 1.5s infinite;
+        }
+        @keyframes pulse-alert {
+            0% { transform: scale(0.9); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7); }
+            70% { transform: scale(1.1); box-shadow: 0 0 0 15px rgba(239, 68, 68, 0); }
+            100% { transform: scale(0.9); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
+        }
+ 
+        /* MODAL / OVERLAY */
+        .overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(17, 24, 39, 0.8); backdrop-filter: blur(5px); z-index: 2000; display: none; align-items: center; justify-content: center; }
+        .overlay.show { display: flex; animation: fadeIn 0.3s; }
+        .modal { background: var(--bg-white); width: 90%; max-width: 500px; border-radius: 20px; padding: 2.5rem; position: relative; box-shadow: var(--shadow-lg); }
+        .close-modal { position: absolute; top: 1.5rem; right: 1.5rem; background: none; border: none; font-size: 1.5rem; cursor: pointer; color: var(--text-muted); }
+        .form-group { margin-bottom: 1.5rem; }
+        .form-group label { display: block; font-weight: 700; margin-bottom: 0.5rem; color: var(--dark-teal); }
+        .form-group input, .form-group select { width: 100%; padding: 1rem; border: 1px solid var(--border); border-radius: 10px; font-family: 'Urbanist'; font-size: 1rem; outline: none; transition: 0.3s; background: var(--bg-light);}
+        .form-group input:focus { border-color: var(--primary-teal); background: white; box-shadow: 0 0 0 3px var(--light-teal); }
+        .btn-submit { width: 100%; background: var(--primary-teal); color: white; border: none; padding: 1rem; border-radius: 10px; font-weight: 800; font-size: 1.1rem; cursor: pointer; transition: 0.3s; }
+        .btn-submit:hover { background: var(--dark-teal); }
+ 
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            nav { flex-direction: column; }
+            .nav-links { width: 100%; overflow-x: auto; padding-bottom: 0.5rem; justify-content: flex-start; }
+            .wallet-card { flex-direction: column; text-align: center; justify-content: center; }
+            .media-container { height: 400px; }
+            .wallet-info p { justify-content: center; }
+        }
+ 
+        /* ============================================================ */
+        /* NUEVOS ESTILOS — NO MODIFICAN NADA EXISTENTE ARRIBA          */
+        /* ============================================================ */
+ 
+        /* --- TELECONSULTA --- */
+        .vet-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 1rem; }
+        .vet-card { background: white; border-radius: 12px; padding: 1rem; box-shadow: var(--shadow-sm); border: 1px solid var(--border); }
+        .vet-card h4 { margin-bottom: 0.5rem; color: var(--dark-teal); }
+ 
+        /* small helpers */
+        .muted { color: var(--text-muted); font-size: 0.9rem; }
+        .flex { display: flex; gap: 1rem; align-items: center; }
+
+    </style>
+</head>
+<body>
+
+<nav>
+    <a class="logo"><i class="fa-solid fa-shield-dog"></i> GHSentinel</a>
+    <div class="nav-links">
+        <a class="nav-link active">Radar</a>
+        <a class="nav-link">Proveedores</a>
+        <a class="nav-link">Gobierno</a>
+        <a class="nav-link">Análisis</a>
+    </div>
+    <div class="nav-actions">
+        <button class="btn-cta">Solicitar Demo</button>
+    </div>
+</nav>
+
+<div class="demo-b2b-bar">
+    <div class="demo-label">B2B2C</div>
+    <div class="badge-saas active">LexiPet</div>
+    <div class="badge-alert">Alerta: 2 brotes activos</div>
+    <div class="muted" style="margin-left:auto">Datos de prueba · Mock</div>
+</div>
+
+<main>
+    <section class="view-section active" id="radar">
+        <div class="dashboard-grid">
+            <div class="card media-container" id="mapCard">
+                <div id="map" style="width:100%; height:100%"></div>
+            </div>
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon"><i class="fa-solid fa-chart-line"></i></div>
+                    <div>
+                        <div class="card-title">Tendencia de casos</div>
+                        <div class="muted">Últimas 30 días</div>
+                    </div>
+                </div>
+                <div class="chart-container">
+                    <canvas id="trendChart"></canvas>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon"><i class="fa-solid fa-hospital-user"></i></div>
+                    <div>
+                        <div class="card-title">Red Veterinaria</div>
+                        <div class="muted">Contactos y disponibilidad</div>
+                    </div>
+                </div>
+                <div class="vet-grid" id="vetGrid">
+                    <!-- dinamico -->
+                </div>
+            </div>
+            <div class="card wallet-card">
+                <div class="wallet-info">
+                    <h2>Identidad Institucional</h2>
+                    <p><strong>GHSentinel</strong> · Plataforma de vigilancia continental</p>
+                    <p class="muted">Versión demo · Datos mock</p>
+                </div>
+                <div class="qr-box" id="qr"></div>
+            </div>
+        </div>
+    </section>
+</main>
+
+<!-- MODAL EJEMPLO -->
+<div class="overlay" id="contactModal">
+    <div class="modal">
+        <button class="close-modal" onclick="toggleModal()">&times;</button>
+        <h3>Contactar proveedor</h3>
+        <div class="form-group">
+            <label>Nombre</label>
+            <input id="contactName" />
+        </div>
+        <div class="form-group">
+            <label>Teléfono</label>
+            <input id="contactPhone" />
+        </div>
+        <div class="form-group">
+            <label>Mensaje</label>
+            <input id="contactMsg" />
+        </div>
+        <button class="btn-submit" onclick="sendContact()">Enviar</button>
+    </div>
+</div>
+
+<script>
+    // Mock data
+    const mockCases = [
+        {lat: -34.6, lng: -58.4, city: 'Buenos Aires', count: 12, severity: 'medium'},
+        {lat: -23.55, lng: -46.63, city: 'São Paulo', count: 25, severity: 'high'},
+        {lat: -12.04, lng: -77.03, city: 'Lima', count: 4, severity: 'low'},
+        {lat: 19.43, lng: -99.13, city: 'CDMX', count: 18, severity: 'medium'}
+    ];
+
+    // Initialize map
+    const map = L.map('map').setView([ -15.78, -47.93 ], 4);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; OpenStreetMap contributors'
+    }).addTo(map);
+
+    mockCases.forEach(c => {
+        const el = L.divIcon({className: 'radar-alert-icon', html: '<i class="fa-solid fa-virus" style="font-size:14px"></i>', iconSize: [30,30]});
+        const marker = L.marker([c.lat, c.lng], {icon: el}).addTo(map);
+        marker.bindPopup(`<strong>${c.city}</strong><br/>Casos: ${c.count}<br/>Severidad: ${c.severity}`);
+    });
+
+    // Chart
+    const ctx = document.getElementById('trendChart').getContext('2d');
+    const trendChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: Array.from({length:30}, (_,i)=>`D-${30-i}`),
+            datasets: [{
+                label: 'Casos reportados',
+                data: Array.from({length:30}, ()=>Math.floor(Math.random()*30)),
+                borderColor: getComputedStyle(document.documentElement).getPropertyValue('--primary-teal').trim(),
+                backgroundColor: 'rgba(13,148,136,0.08)',
+                fill: true
+            }]
+        },
+        options: {responsive:true, maintainAspectRatio:false}
+    });
+
+    // Vet grid
+    const vets = [
+        {name:'Vet San Miguel', city:'Buenos Aires', phone:'+54 9 11 1234'},
+        {name:'Clínica Animal SP', city:'São Paulo', phone:'+55 11 9876'},
+        {name:'PetCare Lima', city:'Lima', phone:'+51 1 2345'},
+    ];
+    const vetGrid = document.getElementById('vetGrid');
+    vets.forEach(v=>{
+        const d = document.createElement('div'); d.className='vet-card';
+        d.innerHTML = `<h4>${v.name}</h4><div class="muted">${v.city}</div><div style="margin-top:0.75rem"><button class="btn-cta" onclick="openContact('${v.name}','${v.phone}')">Contactar</button></div>`;
+        vetGrid.appendChild(d);
+    });
+
+    // QR
+    new QRCode(document.getElementById('qr'), {text: 'GHSentinel Demo', width:120, height:120});
+
+    function openContact(name, phone){
+        document.getElementById('contactName').value = name;
+        document.getElementById('contactPhone').value = phone;
+        toggleModal(true);
+    }
+    function toggleModal(show){
+        const el = document.getElementById('contactModal');
+        if(show===undefined) el.classList.toggle('show'); else el.classList.toggle('show', show);
+    }
+    function sendContact(){
+        const name = document.getElementById('contactName').value;
+        const phone = document.getElementById('contactPhone').value;
+        const msg = document.getElementById('contactMsg').value;
+        alert('Contacto enviado (demo): '+name+' - '+phone+'\n'+msg);
+        toggleModal(false);
+    }
+</script>
+
+</body>
+</html>
